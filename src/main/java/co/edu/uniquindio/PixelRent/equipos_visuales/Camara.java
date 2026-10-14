@@ -1,12 +1,14 @@
 package co.edu.uniquindio.PixelRent.equipos_visuales;
+
+import javax.swing.*;
+
 public class Camara extends EquipoVisual {
         private String resolucionMaxima;
-        private double tarifaBase=0;
+        private double tarifaBase;
         private boolean estabilizador;
-        public Camara(String marca, String modelo,String resolucionMaxima, boolean estabilizador){
+        public Camara(String marca, String modelo,String resolucionMaxima){
             String tipoObjeto="C-";
             super(marca,modelo,tipoObjeto);
-            setEstabilizador(estabilizador);
             this.resolucionMaxima=resolucionMaxima;
         }
 
@@ -38,6 +40,21 @@ public class Camara extends EquipoVisual {
                 this.tarifaBase=12000;
                 this.estabilizador = estabilizador;
             }
-
+    }
+    public void preguntarEstabizador(){
+            String pregunta= JOptionPane.showInputDialog("¿Tiene estabilizador?");
+        if (pregunta.equalsIgnoreCase("si")) {
+            setEstabilizador(true);
+        }else {
+            setEstabilizador(false);
+        }
+    }
+    @Override
+    public String toString(){
+            String mensaje=super.toString();
+            mensaje+= "Resolucion maxima: "+getResolucionMaxima()+
+            "\n Tiene estabilizador: "+isEstabilizador()+
+            "\n Tarifa base: "+ getTarifaBase();
+            return mensaje;
     }
 }

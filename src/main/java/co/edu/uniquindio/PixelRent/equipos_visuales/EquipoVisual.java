@@ -12,7 +12,7 @@ public abstract class EquipoVisual {
         id=tipoObjeto+(++cantidadEquipos);
         this.marca = marca;
         this.modelo = modelo;
-        this.disponibilidad = disponibilidad;
+        this.disponibilidad = true;
     }
 
     public String getId() {
@@ -60,5 +60,14 @@ public abstract class EquipoVisual {
     }
     public double calcularTotal(double tarifaBase, double cantidadHorasAlquilado){
         return tarifaBase*cantidadHorasAlquilado;
+    }
+
+    @Override
+    public String toString() {
+        String mensaje="ID "+getId()+
+                "\n Marca: "+getMarca()+
+                "\n Modelo: "+getModelo()+
+                "\n Disponibilidad: "+isDisponibilidad()+"\n";
+        return mensaje;
     }
 }

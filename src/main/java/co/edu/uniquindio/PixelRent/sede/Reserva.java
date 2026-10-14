@@ -16,7 +16,7 @@ public class Reserva{
     private final Turno turno;
     ArrayList<EquipoVisual> listaEquiposAudiovisuales;
     public Reserva(Cliente cliente, LocalDate fechaSolicitud, Turno turno){
-        this.id="Reserva-"+(++cantidadReservas);
+        this.id="R-"+(++cantidadReservas);
         this.cliente=cliente;
         this.fechaSolicitud=fechaSolicitud;
         this.turno=turno;
@@ -50,5 +50,14 @@ public class Reserva{
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Id reserva: "+getId()+"\n"
+                +"\n Cliente: "+"\n"+cliente.toString()+"\n"
+                +"\nFecha solicitada: "+getFechaSolicitud()+"\n"
+                +"Turno: "+getTurno()+"\n"
+                +"Estado: "+ getEstado();
     }
 }
