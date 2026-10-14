@@ -31,7 +31,11 @@ public class Empresa {
         Sede sedeNorte=new Sede("Sede norte","Allí");
         Operador.listaOperadores.add(new Operador("Juan","1234",true,8));
         Operador.listaOperadores.add(new Operador("Paco","123",false,2));
-        sedeNorte.agregarEquipoVisual();
+        sedeNorte.getListaEquipos().add(new Camara("adsa","asda","sad12"));
+        sedeNorte.getListaEquipos().add(new Dron("asdadsa","adsasda",31));
+        sedeNorte.getListaEquipos().add(new KitIluminacion("asd312","adsadsa",1));
+        mostrarListaEquipos(sedeNorte);
+
     }
     //Crear o agregar elementos o asignar elementos
     public static void agregarCliente(){
@@ -98,8 +102,11 @@ public class Empresa {
         }
         JOptionPane.showMessageDialog(null,mensaje);
     }
-    public static void mostrarListaEquipos(ArrayList<EquipoVisual> equiposVisuales){
-
-        String mensaje;
+    public static void mostrarListaEquipos(Sede sede){
+        String mensaje=sede.getNombre()+"\n";
+        for (EquipoVisual equipoVisual: sede.getListaEquipos()){
+            mensaje+=equipoVisual.toString()+"\n -------------"+"\n";
+        }
+        JOptionPane.showMessageDialog(null, mensaje);
     }
 }

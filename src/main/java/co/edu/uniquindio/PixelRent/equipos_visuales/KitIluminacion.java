@@ -10,6 +10,7 @@ public class KitIluminacion extends EquipoVisual{
         String tipoObjeto="K-";
         super(marca,modelo,tipoObjeto);
         this.luces=luces;
+        setControlInalambrico(false);
     }
 
     public double getTarifaBase() {

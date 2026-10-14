@@ -10,6 +10,7 @@ public class Camara extends EquipoVisual {
             String tipoObjeto="C-";
             super(marca,modelo,tipoObjeto);
             this.resolucionMaxima=resolucionMaxima;
+            setEstabilizador(false);
         }
 
     public String getResolucionMaxima() {
