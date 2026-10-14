@@ -63,7 +63,7 @@ public class Sede {
     public void agregarEquipoVisual(){
         String marca;
         String modelo;
-        String tipo= JOptionPane.showInputDialog("Ingrese que tipo de equipo es (camara, dron, kit)");
+        String tipo= JOptionPane.showInputDialog("Ingrese que tipo de equipo es (camara, dron, kit): ");
         switch (tipo.toLowerCase()){
             case "camara":
                 marca=JOptionPane.showInputDialog("Ingrese la marca de la camara");

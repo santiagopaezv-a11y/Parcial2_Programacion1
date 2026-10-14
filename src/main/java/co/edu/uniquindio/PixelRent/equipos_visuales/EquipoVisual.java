@@ -7,6 +7,7 @@ public abstract class EquipoVisual {
     protected boolean disponibilidad;
     protected static int cantidadEquipos=0;
     protected int horaReserva=0;
+    protected EstadoEquipo estadoEquipo;
 
     public EquipoVisual(String marca, String modelo,String tipoObjeto) {
         id=tipoObjeto+(++cantidadEquipos);
@@ -49,6 +50,27 @@ public abstract class EquipoVisual {
 
     public void setDisponibilidad(boolean disponibilidad) {
         this.disponibilidad = disponibilidad;
+    }
+    public void setEstadoEquipo(String estado) {
+
+        switch (estado.toLowerCase()) {
+
+         case "ocupado":
+             this.estadoEquipo = EstadoEquipo.OCUPADO;
+             disponibilidad = false;
+             break;
+         case "en mantenimiento":
+             this.estadoEquipo=EstadoEquipo.EN_MANTENIMIENTO;
+             disponibilidad = false;
+             break;
+         case "fuera de servicio":
+             this.estadoEquipo=EstadoEquipo.FUERA_DE_SERVICIO;
+             disponibilidad = false;
+             break;
+
+         case "cancelar":
+                break;
+        }
     }
 
     public static int getCantidadEquipos() {

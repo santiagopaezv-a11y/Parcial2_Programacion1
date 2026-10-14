@@ -10,7 +10,7 @@ public class Camara extends EquipoVisual {
             String tipoObjeto="C-";
             super(marca,modelo,tipoObjeto);
             this.resolucionMaxima=resolucionMaxima;
-            setEstabilizador(false);
+            this.estabilizador = false;
         }
 
     public String getResolucionMaxima() {
@@ -33,22 +33,18 @@ public class Camara extends EquipoVisual {
         return estabilizador;
     }
 
-    public void setEstabilizador(boolean estabilizador) {
-            if (estabilizador) {
+    public void setEstabilizador(String estabilizador) {
+            if (estabilizador.equalsIgnoreCase("si")) {
                 this.tarifaBase=15000;
-                this.estabilizador=estabilizador;
+                this.estabilizador = true;
             }else {
                 this.tarifaBase=12000;
-                this.estabilizador = estabilizador;
+                this.estabilizador = false;
             }
     }
     public void preguntarEstabizador(){
             String pregunta= JOptionPane.showInputDialog("¿Tiene estabilizador?");
-        if (pregunta.equalsIgnoreCase("si")) {
-            setEstabilizador(true);
-        }else {
-            setEstabilizador(false);
-        }
+            setEstabilizador(pregunta);
     }
     @Override
     public String toString(){

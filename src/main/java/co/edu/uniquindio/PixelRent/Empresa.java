@@ -26,15 +26,15 @@ public class Empresa {
         //mostarListaClientes();
         listaReservas.add(new Reserva(pedro,LocalDate.of(2026,11,21),Turno.DIA));
         listaReservas.add(new Reserva(pedro,LocalDate.of(2022,10,9),Turno.TARDE));
-        //mostrarReservas();
+        mostrarReservas();
         //mostrarReservaPorId();
         Sede sedeNorte=new Sede("Sede norte","Allí");
         Operador.listaOperadores.add(new Operador("Juan","1234",true,8));
         Operador.listaOperadores.add(new Operador("Paco","123",false,2));
         sedeNorte.getListaEquipos().add(new Camara("adsa","asda","sad12"));
-        sedeNorte.getListaEquipos().add(new Dron("asdadsa","adsasda",31));
+//       sedeNorte.getListaEquipos().add(new Dron("asdadsa","adsasda",31));
         sedeNorte.getListaEquipos().add(new KitIluminacion("asd312","adsadsa",1));
-        mostrarListaEquipos(sedeNorte);
+//        mostrarListaEquipos(sedeNorte);
 
     }
     //Crear o agregar elementos o asignar elementos
@@ -59,7 +59,7 @@ public class Empresa {
         Operador.listaOperadores.add(nuevoOperador);
     }
     public static void asignarReservaOperador(){
-        String idReserva=JOptionPane.showInputDialog("Ingrese la reserva");
+        String idReserva=JOptionPane.showInputDialog("Ingrese el ID de la reserva: ");
         for (Reserva reserva:listaReservas){
             if (reserva.getId().equals(idReserva)){
                 String idOperador=JOptionPane.showInputDialog("Ingrese el ID del operador que quiere asignar: ");
@@ -74,20 +74,20 @@ public class Empresa {
     public static void mostarListaClientes(){
         String mensaje="";
         for (Cliente cliente:listaClientes){
-            mensaje+=cliente.toString()+"\n ----------------"+"\n";
+            mensaje += cliente.toString()+"\n ----------------" + "\n";
         }
         JOptionPane.showMessageDialog(null,mensaje);
     }
     public static void mostrarReservas(){
         String mensaje="";
         for (Reserva reserva: listaReservas){
-            mensaje+=reserva.toString()+"\n ----------------------"+"\n";
+            mensaje+= reserva.toString() + "\n ----------------------" + "\n";
         }
         JOptionPane.showMessageDialog(null, mensaje);
     }
     public static void mostrarReservaPorId(){
         String id=JOptionPane.showInputDialog("Ingrese el id del cliente");
-        String mensaje="No hay ninguna reserva con ese cliente";
+        String mensaje = "No hay ninguna reserva con ese cliente";
         for (Reserva reserva:listaReservas){
             if (reserva.getId().equals(id)){
                 mensaje=reserva.toString();
@@ -109,4 +109,68 @@ public class Empresa {
         }
         JOptionPane.showMessageDialog(null, mensaje);
     }
+
+    // editar - modificar elementos
+
+    public static void actualizarEquipo(Sede sede){
+        String idEquipoActualizar = JOptionPane.showInputDialog("Ingrese el ID del equipo que desea actualizar: ");
+        for (EquipoVisual equipoVisual : sede.getListaEquipos()){
+            if (equipoVisual.getId().equals(idEquipoActualizar)){
+
+                for (int i = 0; i < equipoVisual.getId().length(); i++) {
+                    char caracter = equipoVisual.getId().charAt(i);
+                    switch (caracter){
+
+                        case 'C':
+                            actualizarCamara(equipoVisual);
+                            break;
+
+                        case 'D':
+                            actualizarDron(equipoVisual);
+
+                            break;
+
+                        case 'K':
+                            actualizarKitIluminacion(equipoVisual);
+                            break;
+
+                    }
+
+               }
+
+            }
+
+        }
+    }
+    public static void actualizarCamara(EquipoVisual equipoVisual){
+
+        if (equipoVisual instanceof Camara camara){
+            camara.setMarca(JOptionPane.showInputDialog("Ingrese la nueva marca de la camara:"));
+            camara.setModelo(JOptionPane.showInputDialog("Ingrese el nuevo modelo de la camara:"));
+            camara.setEstadoEquipo(JOptionPane.showInputDialog("Ingrese el nuevo estado del equipo ( ocupado - fuera de servicio - en mantenimiento ): "));
+            camara.setEstabilizador(JOptionPane.showInputDialog("¿La camara tiene estabilizador?"));
+            camara.setResolucionMaxima(JOptionPane.showInputDialog("Ingrese la resolucion maxima:"));
+        }
+    }
+    public static void actualizarDron(EquipoVisual equipoVisual){
+        if (equipoVisual instanceof Dron dron){
+            dron.setMarca(JOptionPane.showInputDialog("Ingrese la nueva marca del dron: "));
+            dron.setModelo(JOptionPane.showInputDialog("Ingrese el nuevo modelo del dron: "));
+            dron.setEstadoEquipo(JOptionPane.showInputDialog("Ingrese el nuevo estado del equipo ( ocupado - fuera de servicio - en mantenimiento ): "));
+            dron.setAutonomiaVuelo(Integer.parseInt(JOptionPane.showInputDialog("Ingrese la nueva autonomia de vuelo del dron: ")));
+        }
+    }
+    public static void actualizarKitIluminacion(EquipoVisual equipoVisual){
+        if(equipoVisual instanceof KitIluminacion kitIluminacion){
+            kitIluminacion.setMarca(JOptionPane.showInputDialog("Ingrese la nueva marca del kit de iluminacion: "));
+            kitIluminacion.setModelo(JOptionPane.showInputDialog("Ingrese el nuevo modelo del kit de iluminacion: "));
+            kitIluminacion.setEstadoEquipo(JOptionPane.showInputDialog("Ingrese el nuevo estado del equipo ( ocupado - fuera de servicio - en mantenimiento ): "));
+            kitIluminacion.setLuces(Integer.parseInt(JOptionPane.showInputDialog("Ingrese la nueva cantidad de luces")));
+        }
+    }
+
+//    public static void actualizarOperador(Sede sede){
+//        String idOperadorActualizar = JOptionPane.showInputDialog("Ingrese el id del operador a actualizar");
+//
+//    }
 }

@@ -12,10 +12,13 @@ public class Dron extends EquipoVisual{
     private boolean bateriaAdicicional;
     private int hora;
     private Operador operadorActual;
+
+
     public Dron(String marca,String modelo, int autonomiaVuelo){
         String tipoObjeto="D-";
         super(marca,modelo,tipoObjeto);
         this.autonomiaVuelo=autonomiaVuelo;
+        this.bateriaAdicicional = bateriaAdicicional;
         asignarDronOperador();
     }
 
@@ -24,9 +27,7 @@ public class Dron extends EquipoVisual{
     }
 
     public void setBateriaAdicicional(boolean bateriaAdicicional) {
-        if (bateriaAdicicional){
-
-        }
+        this.bateriaAdicicional = bateriaAdicicional;
     }
 
     public Operador getOperadorActual() {
@@ -72,8 +73,9 @@ public class Dron extends EquipoVisual{
     public void setHora(int hora) {
         this.hora = hora;
     }
+
     public void preguntarMinutosVuelo(){
-        int pregunta= Integer.parseInt(JOptionPane.showInputDialog("¿Cuantos minutos va a usar el dron?"));
+        int pregunta = Integer.parseInt(JOptionPane.showInputDialog("¿Cuantos minutos va a usar el dron?"));
         if (pregunta>getAutonomiaVuelo()) {
             setBateriaAdicicional(true);
         }else {
@@ -83,17 +85,19 @@ public class Dron extends EquipoVisual{
     @Override
     public String toString(){
         String mensaje=super.toString();
-        mensaje+="Autonomia de vuelo: "+getAutonomiaVuelo()+
-        "\n Operador actual: "+operadorActual.getNombre();
+        mensaje+="Autonomia de vuelo: "+ getAutonomiaVuelo()+
+        "\n Operador actual: " + operadorActual.getNombre();
         return mensaje;
     }
     public void asignarDronOperador(){
         String idOperador=JOptionPane.showInputDialog("Ingrese el ID del operador que quiere asignar: ");
             for (Operador operador:Operador.listaOperadores){
-                if (operador.getDocumento().equals(idOperador)) {this.operadorActual=operador;
+                if (operador.getDocumento().equals(idOperador)) {
+                    this.operadorActual=operador;
+                    JOptionPane.showMessageDialog(null, "Se ha asignado con exito al operador.");
                 return;}
             }
-            JOptionPane.showMessageDialog(null, "No se encontro el operador");
+            JOptionPane.showMessageDialog(null, "No se encontro el operador intentelo de nuevo");
             asignarDronOperador();
     }
 }
