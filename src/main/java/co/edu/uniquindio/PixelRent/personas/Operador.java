@@ -56,8 +56,13 @@ public class Operador {
         return certificacion;
     }
 
-    public void setCertificacion(boolean certificacion) {
-        this.certificacion = certificacion;
+    public void setCertificacion(String certificacion) {
+       if (certificacion.equalsIgnoreCase("si")){
+           this.certificacion =true;
+       }
+       else{
+           this.certificacion=false;
+       }
     }
 
     public int getAniosExperencia() {

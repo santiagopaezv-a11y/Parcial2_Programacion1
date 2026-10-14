@@ -169,8 +169,40 @@ public class Empresa {
         }
     }
 
-//    public static void actualizarOperador(Sede sede){
-//        String idOperadorActualizar = JOptionPane.showInputDialog("Ingrese el id del operador a actualizar");
-//
-//    }
+    public static void actualizarOperador(Sede sede){
+        String idOperadorActualizar = JOptionPane.showInputDialog("Ingrese el id del operador a actualizar");
+        boolean encontrar = false;
+        for(Operador operador : Operador.listaOperadores){
+            if(operador.getDocumento().equals(idOperadorActualizar)){
+                encontrar = true;
+                operador.setNombre(JOptionPane.showInputDialog("Ingrese el nombre del operador: "));
+                operador.setCertificacion(JOptionPane.showInputDialog("Ingrese si tiene certificacion ( si / no ): "));
+                operador.setAniosExperencia(Integer.parseInt(JOptionPane.showInputDialog("Ingrese los años de experiencia: ")));
+                JOptionPane.showMessageDialog(null, "Operador actualizado con exito.");
+                break;
+            }
+        }
+        if (encontrar != true){
+            JOptionPane.showMessageDialog(null ,"El operador no fue encontrado");
+        }
+    }
+
+    public static void eliminarOperador (Sede sede) {
+        String idOperadorActualizar = JOptionPane.showInputDialog("Ingrese el id del operador a actualizar");
+        boolean encontrar = false;
+
+        for (int i = 0; i < Operador.listaOperadores.size(); i++) {
+            Operador operador = Operador.listaOperadores.get(i);
+            if (operador.getDocumento().equals(idOperadorActualizar)){
+                Operador.listaOperadores.remove(i);
+                encontrar = true;
+                JOptionPane.showMessageDialog(null, "Operador eliminado exitosamente.");
+                break;
+            }
+        }
+        if (encontrar != true){
+            JOptionPane.showMessageDialog(null, "El operador no fue encontrado:");
+        }
+
+    }
 }
