@@ -11,16 +11,16 @@ public class Dron extends EquipoVisual{
     private int autonomiaVuelo;
     private boolean bateriaAdicicional;
     private int hora;
-    private Operador operadorActual;
+    private Operador operadorActual=null;
 
 
-    public Dron(String marca,String modelo,int horaReserva, int autonomiaVuelo){
+    public Dron(String marca,String modelo,int autonomiaVuelo){
         String tipoObjeto="D-";
-        super(marca,modelo,tipoObjeto,horaReserva);
+        super(marca,modelo,tipoObjeto);
         this.autonomiaVuelo=autonomiaVuelo;
         this.bateriaAdicicional = false;
-        asignarDronOperador();
         this.tarifaBase = 18000;
+        preguntarMinutosVuelo();
     }
 
     public boolean isBateriaAdicicional() {
@@ -96,6 +96,9 @@ public class Dron extends EquipoVisual{
     }
     public void asignarDronOperador(){
         String idOperador=JOptionPane.showInputDialog("Ingrese el ID del operador que quiere asignar: ");
+        if (Operador.listaOperadores.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay por el momento ningun operador para asignar"); return;
+        }
             for (Operador operador:Operador.listaOperadores){
                 if (operador.getDocumento().equals(idOperador)) {
                     this.operadorActual=operador;
@@ -103,6 +106,5 @@ public class Dron extends EquipoVisual{
                 return;}
             }
             JOptionPane.showMessageDialog(null, "No se encontro el operador intentelo de nuevo");
-            asignarDronOperador();
     }
 }

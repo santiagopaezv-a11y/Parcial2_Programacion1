@@ -9,7 +9,7 @@ public abstract class EquipoVisual {
     protected int horaReserva;
     protected EstadoEquipo estadoEquipo;
 
-    public EquipoVisual(String marca, String modelo,String tipoObjeto, int horaReserva) {
+    public EquipoVisual(String marca, String modelo,String tipoObjeto) {
         id=tipoObjeto+(++cantidadEquipos);
         this.marca = marca;
         this.modelo = modelo;

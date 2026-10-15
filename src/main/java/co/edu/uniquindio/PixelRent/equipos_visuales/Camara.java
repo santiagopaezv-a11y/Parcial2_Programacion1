@@ -6,12 +6,13 @@ public class Camara extends EquipoVisual {
         private String resolucionMaxima;
         private double tarifaBase = 12000;
         private boolean estabilizador;
-        public Camara(String marca, String modelo, int horaReserva, String resolucionMaxima){
+        public Camara(String marca, String modelo,String resolucionMaxima){
             String tipoObjeto="C-";
-            super(marca,modelo,tipoObjeto,horaReserva);
+            super(marca,modelo,tipoObjeto);
             this.resolucionMaxima=resolucionMaxima;
             this.estabilizador = false;
             this.tarifaBase = 12000;
+            preguntarEstabizador();
         }
 
     public String getResolucionMaxima() {

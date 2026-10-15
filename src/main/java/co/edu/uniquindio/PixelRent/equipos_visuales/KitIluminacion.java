@@ -11,6 +11,7 @@ public class KitIluminacion extends EquipoVisual{
         super(marca,modelo,tipoObjeto);
         this.luces=luces;
         setControlInalambrico(false);
+        preguntarControlInalambrico();
     }
 
     public double getTarifaBase() {
