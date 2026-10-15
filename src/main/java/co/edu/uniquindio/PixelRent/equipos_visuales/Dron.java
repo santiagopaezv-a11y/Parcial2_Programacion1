@@ -6,7 +6,7 @@ import co.edu.uniquindio.PixelRent.personas.Operador;
 import javax.swing.*;
 
 public class Dron extends EquipoVisual{
-    private double tarifaBase=0;
+    private double tarifaBase = 18000;
     private int minutosVuelo;
     private int autonomiaVuelo;
     private boolean bateriaAdicicional;
@@ -14,12 +14,13 @@ public class Dron extends EquipoVisual{
     private Operador operadorActual;
 
 
-    public Dron(String marca,String modelo, int autonomiaVuelo){
+    public Dron(String marca,String modelo,int horaReserva, int autonomiaVuelo){
         String tipoObjeto="D-";
-        super(marca,modelo,tipoObjeto);
+        super(marca,modelo,tipoObjeto,horaReserva);
         this.autonomiaVuelo=autonomiaVuelo;
-        this.bateriaAdicicional = bateriaAdicicional;
+        this.bateriaAdicicional = false;
         asignarDronOperador();
+        this.tarifaBase = 18000;
     }
 
     public boolean isBateriaAdicicional() {
@@ -55,7 +56,11 @@ public class Dron extends EquipoVisual{
     }
 
     public void setMinutosVuelo(int minutosVuelo) {
-        if (minutosVuelo>autonomiaVuelo)bateriaAdicicional=true;
+        if (minutosVuelo>autonomiaVuelo){
+            this.bateriaAdicicional=true;
+        } else {
+            this.bateriaAdicicional = false;
+        }
     }
 
     public int getAutonomiaVuelo() {

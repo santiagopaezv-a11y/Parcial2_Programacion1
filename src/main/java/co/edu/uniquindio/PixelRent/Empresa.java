@@ -9,6 +9,7 @@ import co.edu.uniquindio.PixelRent.sede.Sede;
 import javax.swing.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class Empresa {
 
         Operador.listaOperadores.add(new Operador("Juan", "1234", true, 8));
         Operador.listaOperadores.add(new Operador("Paco", "123", false, 2));
-        sedeNorte.getListaEquipos().add(new Camara("adsa", "asda", "sad12"));
+        sedeNorte.getListaEquipos().add(new Camara("adsa", "asda", 1, "50MPX"));
 //       sedeNorte.getListaEquipos().add(new Dron("asdadsa","adsasda",31));
         sedeNorte.getListaEquipos().add(new KitIluminacion("asd312", "adsadsa", 1));
 //        mostrarListaEquipos(sedeNorte);
@@ -86,7 +87,7 @@ public class Empresa {
             String input = JOptionPane.showInputDialog("Ingrese la fecha de la solicitud (AAAA-MM-DD): ");
             if (input == null) return;
                 fechaSolicitud = LocalDate.parse(input);
-        } catch (DateTimeException e){
+        } catch (DateTimeParseException e){
             JOptionPane.showMessageDialog(null, "Formato erroneo");
             return;
         }
@@ -96,11 +97,70 @@ public class Empresa {
             String turnoInput = JOptionPane.showInputDialog("Ingrese el turno (DIA - TARDE - NOCHE): ");
             if(turnoInput==null) return;
             turno = Turno.valueOf(turnoInput.trim().toUpperCase());
-        } catch (IllegalThreadStateException e) {
+        } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, "Turno invalido. Debe ser (DIA - TARDE - NOCHE). ");
         }
 
         Reserva nuevaReserva = new Reserva(clienteEncontrado, fechaSolicitud, turno);
+
+        boolean agregarMas = true;
+        while (agregarMas){
+            String idEquipo = JOptionPane.showInputDialog("Ingrese el ID del equipo que desea  alquilar: ");
+
+            if (idEquipo == null || idEquipo.trim().isEmpty()) {
+                agregarMas = false;
+                break;
+            }
+
+            EquipoVisual equipoVisualEncontrado = null;
+            for (Sede sede : listaSedes) {
+                for (EquipoVisual equipoVisual : sede.getListaEquipos()){
+                    if (equipoVisual.getId().equalsIgnoreCase(idEquipo.trim())){
+                        equipoVisualEncontrado = equipoVisual;
+                        break;
+                    }
+                }
+                if (equipoVisualEncontrado != null)break;;
+            }
+            if (equipoVisualEncontrado != null) {
+                int horas = 0;
+                boolean horasValidas=false;
+
+                while (!horasValidas){
+                    String horaReserva = JOptionPane.showInputDialog("Ingrese las  horas de uso para " +
+                            equipoVisualEncontrado.getMarca() + " " + equipoVisualEncontrado.getModelo() + ": ");
+                    if (horaReserva == null){
+                        break;
+                    }
+                try {
+                    horas = Integer.parseInt(horaReserva.trim());
+                    if (horas > 0){
+                        horasValidas = true;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Las horas de uso deben ser mayor a 0");
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Entrada invalida.");
+                }
+                }
+                if (horasValidas){
+                    equipoVisualEncontrado.setHoraReserva(horas);
+                    if (equipoVisualEncontrado instanceof Dron dron){
+                        dron.preguntarMinutosVuelo();
+                    }
+
+                    nuevaReserva.agregarEquipo(equipoVisualEncontrado);
+                    JOptionPane.showMessageDialog(null, "Equipo " + equipoVisualEncontrado.getId() + " agregado con exito");
+
+                    int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea agregar otro equipo a la reserva?", "Agregar equipo", JOptionPane.YES_NO_OPTION);
+                    if (respuesta != JOptionPane.YES_OPTION) {
+                        agregarMas = false;
+                    }
+                }
+            }
+
+        }
+
         listaReservas.add(nuevaReserva);
         JOptionPane.showMessageDialog(null, "La reserva fue creada con exito.");
     }

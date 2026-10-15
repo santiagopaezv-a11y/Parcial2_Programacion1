@@ -14,7 +14,7 @@ public abstract class EquipoVisual {
         this.marca = marca;
         this.modelo = modelo;
         this.disponibilidad = true;
-        this.horaReserva = horaReserva;
+        this.horaReserva = 0;
     }
 
     public String getId() {

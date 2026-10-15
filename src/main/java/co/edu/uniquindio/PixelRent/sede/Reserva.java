@@ -90,6 +90,11 @@ public class Reserva{
                 +"Estado: "+ getEstado();
     }
 
+    public void agregarEquipo(EquipoVisual equipoVisual){
+        if(equipoVisual != null){
+            this.listaEquiposAudiovisuales.add(equipoVisual);
+        }
+    }
 
 
     }

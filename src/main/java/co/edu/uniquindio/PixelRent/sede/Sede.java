@@ -69,7 +69,7 @@ public class Sede {
                 marca=JOptionPane.showInputDialog("Ingrese la marca de la camara");
                 modelo=JOptionPane.showInputDialog("Ingrese el modelo de la camara");
                 String resolucionMaxima=JOptionPane.showInputDialog("¿Cual es la resolucion de la camara?");
-                Camara nuevaCamara=new Camara(marca,modelo,resolucionMaxima);
+                Camara nuevaCamara=new Camara(marca,modelo,0,resolucionMaxima);
                 Sede.listaEquipos.add(nuevaCamara);
                 JOptionPane.showMessageDialog(null,"Dron creado exictosamente, ID: "+nuevaCamara.getId());
                 break;
@@ -77,7 +77,7 @@ public class Sede {
                 marca=JOptionPane.showInputDialog("Ingrese la marca del dron");
                 modelo=JOptionPane.showInputDialog("Ingrese el modelo del dron");
                 int autonomiaVuelo=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la autonomia de vuelo del dron"));
-                Dron nuevoDron=new Dron(marca,modelo,autonomiaVuelo);
+                Dron nuevoDron=new Dron(marca,modelo,0,autonomiaVuelo);
                 Sede.listaEquipos.add(nuevoDron);
                 JOptionPane.showMessageDialog(null,"Dron creado exictosamente, ID: "+nuevoDron.getId());
                 break;

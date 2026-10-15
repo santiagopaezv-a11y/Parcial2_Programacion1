@@ -6,9 +6,9 @@ public class Camara extends EquipoVisual {
         private String resolucionMaxima;
         private double tarifaBase = 12000;
         private boolean estabilizador;
-        public Camara(String marca, String modelo,String resolucionMaxima){
+        public Camara(String marca, String modelo, int horaReserva, String resolucionMaxima){
             String tipoObjeto="C-";
-            super(marca,modelo,tipoObjeto);
+            super(marca,modelo,tipoObjeto,horaReserva);
             this.resolucionMaxima=resolucionMaxima;
             this.estabilizador = false;
             this.tarifaBase = 12000;
@@ -47,8 +47,8 @@ public class Camara extends EquipoVisual {
             setEstabilizador(pregunta);
     }
 
-    public double calcularPrecio(int horas){
-            double total = horas * this.tarifaBase;
+    public double calcularPrecio(){
+            double total = getHoraReserva() * this.tarifaBase;
             if (this.estabilizador){
                 total+= 15000;
             }
