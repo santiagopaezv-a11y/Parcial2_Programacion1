@@ -34,17 +34,11 @@ public class KitIluminacion extends EquipoVisual{
     }
 
     public void setControlInalambrico(boolean controlInalambrico) {
-        if (controlInalambrico){
-            this.controlInalambrico = controlInalambrico;
-            tarifaBase=12000;
-        }else {
-            this.controlInalambrico=controlInalambrico;
-            tarifaBase=10000;
-        }
+        this.controlInalambrico = controlInalambrico;
     }
     public void preguntarControlInalambrico(){
         String pregunta= JOptionPane.showInputDialog("¿Nesecita control inalambrico?");
-        if (pregunta.equalsIgnoreCase("si")) {
+        if (pregunta != null && pregunta.trim().equalsIgnoreCase("si")) {
             setControlInalambrico(true);
         }else {
             setControlInalambrico(false);

@@ -1,9 +1,6 @@
 package co.edu.uniquindio.PixelRent.sede;
 
-import co.edu.uniquindio.PixelRent.equipos_visuales.Camara;
-import co.edu.uniquindio.PixelRent.equipos_visuales.EquipoVisual;
-import co.edu.uniquindio.PixelRent.equipos_visuales.EstadoEquipo;
-import co.edu.uniquindio.PixelRent.equipos_visuales.Turno;
+import co.edu.uniquindio.PixelRent.equipos_visuales.*;
 import co.edu.uniquindio.PixelRent.personas.Cliente;
 
 import javax.swing.*;
@@ -27,6 +24,9 @@ public class Reserva{
         listaEquiposAudiovisuales=new ArrayList<>();
     }
 
+    public ArrayList<EquipoVisual> getListaEquiposAudiovisuales(){
+        return listaEquiposAudiovisuales;
+    }
     public static int getCantidadReservas() {
         return cantidadReservas;
     }
@@ -58,25 +58,51 @@ public class Reserva{
             case "confirmada":
             if (this.estado == Estado.CANCELADA || this.estado == Estado.FINALIZADA){
                 JOptionPane.showMessageDialog(null, "No se puede confirmar una reserva que esta en " + this.estado);
-            } else {
-                this.estado = Estado.CONFIRMADA;
+                return;
             }
+            if (this.listaEquiposAudiovisuales.isEmpty()){
+                JOptionPane.showMessageDialog(null, "No se puede confirmar la reserva (Debe tener al menos un equipo audiovisual asignado). ");
+                return;
+            }
+            for (EquipoVisual equipoVisual : this.listaEquiposAudiovisuales){
+                if (equipoVisual instanceof Dron dron) {
+                    if (dron.getOperadorActual() == null){
+                        JOptionPane.showMessageDialog(null, "No se puede confirmar la reserva del dron porque no tiene un operador asignado. ");
+                        return;
+                    }
+                }
+            }
+            this.estado = Estado.CONFIRMADA;
+            JOptionPane.showMessageDialog(null, "Reserva " + this.id + " confirmada exitosamente");
             break;
 
             case "cancelada":
-                this.estado=Estado.CANCELADA;
+                if (this.estado == Estado.FINALIZADA || this.estado == Estado.CANCELADA){
+                JOptionPane.showMessageDialog(null, "No se puede CANCELAR una reserva que ya esta " + this.estado + ".");
+                return;
+            }
+                this.estado = Estado.CANCELADA;
+                JOptionPane.showMessageDialog(null, "Reserva " + this.id + " ha sido cancelada. ");
                 break;
 
             case "finalizada":
+                if (this.estado!=Estado.CONFIRMADA){
+                    JOptionPane.showMessageDialog(null,"Solo se pueden finalizar reservas que se encuentran CONFIRMADAS.");
+                    return;
+                }
                 this.estado = Estado.FINALIZADA;
+                JOptionPane.showMessageDialog(null, "Reserva " + this.id + " ha sido finalizada. ");
                 break;
 
             case "solicitada":
-                this.estado = Estado.SOLICITADA;
+                if (this.estado != Estado.SOLICITADA){
+                    JOptionPane.showMessageDialog(null, "No se puede regresar una reserva al estado SOLICITADA. ");
+                return;
+                }
                 break;
 
             default:
-                JOptionPane.showMessageDialog(null, "Estado no valido");
+                JOptionPane.showMessageDialog(null, "Estado no valido (solicitada - confirmada - finalizada - cancelada). ");
                 break;
         }
     }

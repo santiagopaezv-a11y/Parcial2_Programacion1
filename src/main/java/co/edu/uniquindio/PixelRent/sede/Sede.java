@@ -15,7 +15,7 @@ public class Sede {
     private String id;
     private String nombre;
     private String direccion;
-    public static ArrayList<EquipoVisual> listaEquipos;
+    public ArrayList<EquipoVisual> listaEquipos;
 
 
     public Sede(String nombre, String direccion) {
@@ -70,15 +70,15 @@ public class Sede {
                 modelo=JOptionPane.showInputDialog("Ingrese el modelo de la camara");
                 String resolucionMaxima=JOptionPane.showInputDialog("¿Cual es la resolucion de la camara?");
                 Camara nuevaCamara=new Camara(marca,modelo,resolucionMaxima);
-                Sede.listaEquipos.add(nuevaCamara);
-                JOptionPane.showMessageDialog(null,"Dron creado exictosamente, ID: "+nuevaCamara.getId());
+                this.listaEquipos.add(nuevaCamara);
+                JOptionPane.showMessageDialog(null,"Camara creada exictosamente, ID: "+nuevaCamara.getId());
                 break;
             case "dron":
                 marca=JOptionPane.showInputDialog("Ingrese la marca del dron");
                 modelo=JOptionPane.showInputDialog("Ingrese el modelo del dron");
                 int autonomiaVuelo=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la autonomia de vuelo del dron"));
                 Dron nuevoDron=new Dron(marca,modelo,autonomiaVuelo);
-                Sede.listaEquipos.add(nuevoDron);
+                this.listaEquipos.add(nuevoDron);
                 JOptionPane.showMessageDialog(null,"Dron creado exictosamente, ID: "+nuevoDron.getId());
                 break;
             case "kit":
@@ -86,8 +86,8 @@ public class Sede {
                 modelo=JOptionPane.showInputDialog("Ingrese el modelo del kit de iluminacion");
                 int cantidadLuces=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de luces del kit de ilumacion"));
                 KitIluminacion nuevoKit=new KitIluminacion(marca,modelo,cantidadLuces);
-                Sede.listaEquipos.add(nuevoKit);
-                JOptionPane.showMessageDialog(null,"Dron creado exictosamente, ID: "+nuevoKit.getId());
+                this.listaEquipos.add(nuevoKit);
+                JOptionPane.showMessageDialog(null,"Kit de iluminacion creado exictosamente, ID: "+nuevoKit.getId());
                 break;
         }
     }

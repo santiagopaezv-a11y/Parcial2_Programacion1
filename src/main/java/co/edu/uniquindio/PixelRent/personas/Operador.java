@@ -17,7 +17,7 @@ public class Operador {
         this.documento = documento;
         this.certificacion = certificacion;
         this.aniosExperencia = aniosExperencia;
-        listaReservas=new ArrayList<>();
+        this.listaReservas=new ArrayList<>();
     }
 
     public static ArrayList<Operador> getListaOperadores() {

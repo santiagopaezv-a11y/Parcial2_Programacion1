@@ -3,6 +3,7 @@ package co.edu.uniquindio.PixelRent;
 import co.edu.uniquindio.PixelRent.equipos_visuales.*;
 import co.edu.uniquindio.PixelRent.personas.Cliente;
 import co.edu.uniquindio.PixelRent.personas.Operador;
+import co.edu.uniquindio.PixelRent.sede.Estado;
 import co.edu.uniquindio.PixelRent.sede.Reserva;
 import co.edu.uniquindio.PixelRent.sede.Sede;
 
@@ -30,6 +31,10 @@ public class Empresa {
     sedeSur=new Sede("Sede Sur","Carrera 20, calle 17");
     sedeEste=new Sede("Sede Este","Carrera 12, calle 2");
     sedeOeste=new Sede("Sede Oeste","Carrera 24, calle 6");
+    listaSedes.add(sedeNorte);
+    listaSedes.add(sedeSur);
+    listaSedes.add(sedeEste);
+    listaSedes.add(sedeOeste);
     moduloPrincipal();
     }
 
@@ -91,7 +96,8 @@ public class Empresa {
                 }
                 if (equipoVisualEncontrado!= null)break;;
             }
-            if (equipoVisualEncontrado!= null && equipoVisualEncontrado.isDisponibilidad()) {
+            boolean disponible = EquipoDisponibleFecha(equipoVisualEncontrado, fechaSolicitud, turno);
+            if (equipoVisualEncontrado!= null && disponible) {
                 int horas = 0;
                 boolean horasValidas=false;
 
@@ -123,7 +129,6 @@ public class Empresa {
                         continue;
                         }
                     }
-                    equipoVisualEncontrado.setEstadoEquipo("ocupado");
                     nuevaReserva.agregarEquipo(equipoVisualEncontrado);
                     JOptionPane.showMessageDialog(null, "Equipo " + equipoVisualEncontrado.getId() + " agregado con exito.");
 
@@ -143,23 +148,35 @@ public class Empresa {
     }
     public static void agregarCliente() {
         String documento = JOptionPane.showInputDialog("Ingrese el documento");
+        if (documento == null || documento.trim().isEmpty()) return;
+        if (existeCliente(documento)){
+            JOptionPane.showMessageDialog(null, "Ya existe un cliente registrado con este ID.");
+            return;
+        }
         String nombre = JOptionPane.showInputDialog("Ingrese el nombre del cliente");
         String telefono = showInputDialog("Ingrese el telefono");
         String correo = showInputDialog("Ingrese el correo");
-        Cliente nuevoCliente = new Cliente(documento, nombre, telefono, correo);
+        Cliente nuevoCliente = new Cliente(documento.trim(), nombre, telefono, correo);
         listaClientes.add(nuevoCliente);
+        JOptionPane.showMessageDialog(null,"Cliente registrado con exito.");
     }
     public static void contratarOperador() {
         String nombre = JOptionPane.showInputDialog("Ingrese el nombre del operador");
         String documento = JOptionPane.showInputDialog("Ingrese el documento");
+        if (documento == null || documento.trim().isEmpty())return;
+        if (existeOperador(documento)){
+            JOptionPane.showMessageDialog(null, "Ya existe un operador registrado con este ID. ");
+        return;
+        }
         String certificar = JOptionPane.showInputDialog("Ingrese si tiene certificacion (Si, No)");
         boolean certificacion;
         if (certificar.equalsIgnoreCase("si")) {
             certificacion = true;
         } else certificacion = false;
         int aniosExperencia = Integer.parseInt(JOptionPane.showInputDialog("Ingrese los anios de experiencia"));
-        Operador nuevoOperador = new Operador(nombre, documento, certificacion, aniosExperencia);
+        Operador nuevoOperador = new Operador(nombre, documento.trim(), certificacion, aniosExperencia);
         Operador.listaOperadores.add(nuevoOperador);
+        JOptionPane.showMessageDialog(null, "Operador registrado con exito. ");
     }
     public static void asignarReservaOperador() {
         String idReserva = JOptionPane.showInputDialog("Ingrese el ID de la reserva: ");
@@ -173,6 +190,31 @@ public class Empresa {
         }
     }
     //Mostrar
+    public static void consultarReservasConfirmadas(){
+        if (listaClientes.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay clientes registrados. ");
+            return;
+        }
+
+        String idCliente = JOptionPane.showInputDialog("Ingrese el ID del cliente: ");
+        if (idCliente == null || idCliente.trim().isEmpty()) return;
+
+        String mensaje = "=== RESERVAS CONFIRMADAS POR EL CLIENTE " + idCliente.trim() + " ===\n\n";
+        boolean confirmadas = false;
+
+        for (Reserva reserva : listaReservas){
+            if (reserva.getCliente().id().equalsIgnoreCase(idCliente.trim()) &&
+                    reserva.getEstado() == Estado.CONFIRMADA){
+                mensaje += reserva.toString() + "\n--------------------------\n";
+                confirmadas = true;
+            }
+        }
+        if (!confirmadas){
+            JOptionPane.showMessageDialog(null,"No se encontraron reservas CONFIRMADAS.");
+        } else {
+            JOptionPane.showMessageDialog(null, mensaje);
+        }
+    }
 
     public static void generarFactura(){
         if (listaReservas.isEmpty()){
@@ -225,7 +267,7 @@ public class Empresa {
         String id = JOptionPane.showInputDialog("Ingrese el id del cliente");
         String mensaje = "No hay ninguna reserva con ese cliente";
         for (Reserva reserva : listaReservas) {
-            if (reserva.getId().equals(id)) {
+            if (reserva.getId().equalsIgnoreCase(id)) {
                 mensaje = reserva.toString();
             }
         }
@@ -258,16 +300,23 @@ public class Empresa {
     }
     public static void actualizarEstadoReserva(){
         String idReservaAct = JOptionPane.showInputDialog("Ingrese el ID de la reserva que desea actualizar: ");
-        String mensaje = "No se encontro la reserva";
+        if (idReservaAct == null || idReservaAct.trim().isEmpty())return;
+        Reserva reservaEncontrada = null;
 
         for (Reserva reserva : listaReservas){
-            if (reserva.getId().equals(idReservaAct)){
-                reserva.setEstado(JOptionPane.showInputDialog("Ingrese el nuevo estado ( solicitada - confirmada - cancelada - finalizada ): "));
-                mensaje = "Se actualizo correctamente.";
+            if (reserva.getId().equalsIgnoreCase(idReservaAct.trim())){
+                reservaEncontrada = reserva;
                 break;
             }
         }
-        JOptionPane.showMessageDialog(null, mensaje);
+        if (reservaEncontrada!=null){
+            String nuevoEstado = JOptionPane.showInputDialog("Ingrese el nuevo estado (solicitada - confirmada - finalizada - cancelada).");
+            if (nuevoEstado!=null){
+                reservaEncontrada.setEstado(nuevoEstado.trim());
+            }
+        } else {
+        JOptionPane.showMessageDialog(null, "No se encontro la reserva.");
+    }
     }
 
 
@@ -281,8 +330,8 @@ public class Empresa {
                mensaje = "El operador fue eliminado con exito";
                break;
            }
-           JOptionPane.showMessageDialog(null, mensaje);
        }
+        JOptionPane.showMessageDialog(null, mensaje);
     }
     public static void eliminarReserva(){
         String idReservaEliminar = JOptionPane.showInputDialog("Ingrese el id de la reserva a eliminar: ");
@@ -316,8 +365,8 @@ public class Empresa {
             int opcion;
             do {
                 opcion=Integer.parseInt(JOptionPane.showInputDialog(
-                        "Ingrese alguna opcion: "+
-                                "\n 1. Acceder a sede "+
+                        "Ingrese alguna opcion: " +
+                                "\n 1. Acceder a sede"+
                                 "\n 2. Acceder como cliente"+
                                 "\n 3. Contratar operador"+
                                 "\n 0. Salir del programa"));
@@ -381,6 +430,8 @@ public class Empresa {
                     "\n 3. Modificar reserva"+
                     "\n 4. Eliminar reserva"+
                     "\n 5. Consultar costo" +
+                    "\n 6. Consultar equipos disponibles por fecha y turno" +
+                    "\n 7. Consultar reservas CONDIRMADAS de un cliente" +
                     "\n 0. Salir"));
             switch (opcion){
                 case 1: agregarReserva(); break;
@@ -393,6 +444,8 @@ public class Empresa {
                 case 3: actualizarEstadoReserva();break;
                 case 4:eliminarReserva(); break;
                 case 5:generarFactura();break;
+                case 6:consultarEquipoDisponiblesFyT(); break;
+                case 7: consultarReservasConfirmadas(); break;
             }
         }while (opcion!=0);
     }
@@ -412,4 +465,83 @@ public class Empresa {
             }
         }while (opcion!=0);
     }
-}
+
+// DISPONIBLE FECHA-TURNO
+
+    public static boolean EquipoDisponibleFecha(EquipoVisual equipoVisual, LocalDate fecha, Turno turno){
+    if (equipoVisual == null || !equipoVisual.isDisponibilidad()){
+        return false;
+    }
+    for (Reserva reserva : listaReservas){
+        if (reserva.getEstado() == Estado.CONFIRMADA && reserva.getFechaSolicitud().equals(fecha)&&
+            reserva.getTurno() == turno){
+            for (EquipoVisual equipo : reserva.getListaEquiposAudiovisuales()){
+                if (equipo.getId().equalsIgnoreCase(equipoVisual.getId())){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+    }
+
+    public static void consultarEquipoDisponiblesFyT() {
+        LocalDate fecha = null;
+        try {
+            String inputFecha = JOptionPane.showInputDialog("Ingresar la fecha a consultar (AAAA-MM-DD)");
+            if (inputFecha == null || inputFecha.trim().isEmpty()) return;
+            fecha = LocalDate.parse(inputFecha.trim());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Formato erroneo intente con (AAAA-MM-DD).");
+            return;
+        }
+
+        Turno turno = null;
+        try {
+            String inputTurno = JOptionPane.showInputDialog("Ingrese el turno (MAÑANA - TARDE - NOCHE)");
+            if (inputTurno == null || inputTurno.trim().isEmpty()) return;
+            turno = Turno.valueOf(inputTurno.trim().toUpperCase());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Turno invalido intente con (MAÑANA - TARDE - NOCHE).");
+            return;
+        }
+        String mensaje = "==== EQUIPOS DISPONIBLLES (" + fecha + " - " + turno + ") ====\n\n";
+        boolean disponibles = false;
+        for (Sede sede : listaSedes) {
+            mensaje += "--- " + sede.getNombre() + "----\n";
+            for (EquipoVisual equipoVisual : sede.getListaEquipos()){
+                if (EquipoDisponibleFecha(equipoVisual, fecha, turno)) {
+                    mensaje += "ID: " + equipoVisual.getId() + " Marca: " + equipoVisual.getMarca() + " Modelo: " + equipoVisual.getModelo() + "\n";
+                    disponibles = true;
+                }
+            }
+            mensaje+= "\n";
+        }
+        if (!disponibles){
+            JOptionPane.showMessageDialog(null, "No hay equipos disponibles para la fecha " + fecha + " y turno " + turno + ".");
+        } else {
+            JOptionPane.showMessageDialog(null, mensaje);
+        }
+    }
+
+    // VERIFICAR DOBLE
+    public static boolean existeCliente(String id){
+        if (id==null) return false;
+        for (Cliente cliente : listaClientes){
+            if (cliente.id().trim().equalsIgnoreCase(id.trim())){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean existeOperador(String id){
+        if (id==null) return false;
+        for (Operador operador : Operador.getListaOperadores() ){
+            if (operador.getDocumento().trim().equalsIgnoreCase(id.trim())){
+                return true;
+            }
+        }
+        return false;
+    }
+  }
+
