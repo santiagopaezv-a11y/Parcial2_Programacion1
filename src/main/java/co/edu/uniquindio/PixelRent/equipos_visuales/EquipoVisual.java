@@ -53,7 +53,7 @@ public abstract class EquipoVisual {
         this.disponibilidad = disponibilidad;
     }
     public void setEstadoEquipo(String estado) {
-
+        if (estado == null) return;
         switch (estado.toLowerCase()) {
 
          case "ocupado":
