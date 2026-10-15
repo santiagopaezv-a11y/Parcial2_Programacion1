@@ -47,9 +47,9 @@ public class Camara extends EquipoVisual {
             String pregunta= JOptionPane.showInputDialog("¿Tiene estabilizador?");
             setEstabilizador(pregunta);
     }
-
+    @Override
     public double calcularPrecio(){
-            double total = getHoraReserva() * this.tarifaBase;
+            double total = this.tarifaBase * getHoraReserva();
             if (this.estabilizador){
                 total+= 15000;
             }

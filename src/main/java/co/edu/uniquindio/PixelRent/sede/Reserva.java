@@ -96,6 +96,12 @@ public class Reserva{
         }
     }
 
-
+    public double calcularCostoTotal(){
+        double total = 0;
+        for (EquipoVisual equipoVisual :listaEquiposAudiovisuales){
+            total+= equipoVisual.calcularPrecio();
+        }
+        return total;
     }
+ }
 

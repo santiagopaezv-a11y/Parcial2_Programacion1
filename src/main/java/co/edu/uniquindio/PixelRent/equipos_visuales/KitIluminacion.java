@@ -5,13 +5,16 @@ import javax.swing.*;
 public class KitIluminacion extends EquipoVisual{
     private int luces;
     private boolean controlInalambrico;
-    private double tarifaBase;
+    private double tarifaBase = 10000;
+
+
     public KitIluminacion(String marca,String modelo, int luces){
         String tipoObjeto="K-";
         super(marca,modelo,tipoObjeto);
         this.luces=luces;
         setControlInalambrico(false);
         preguntarControlInalambrico();
+        this.tarifaBase = 10000;
     }
 
     public double getTarifaBase() {
@@ -54,5 +57,15 @@ public class KitIluminacion extends EquipoVisual{
             "\n Control inalambrico: "+isControlInalambrico()+
             "\n Tarifa Base: "+getTarifaBase()+"\n";
         return mensaje;
+    }
+
+    @Override
+    public double calcularPrecio() {
+        double total = this.tarifaBase * getHoraReserva();
+
+        if (this.controlInalambrico){
+            total += 12000;
+        }
+        return total;
     }
 }

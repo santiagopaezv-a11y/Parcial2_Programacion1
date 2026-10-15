@@ -107,4 +107,14 @@ public class Dron extends EquipoVisual{
             }
             JOptionPane.showMessageDialog(null, "No se encontro el operador intentelo de nuevo");
     }
+
+    @Override
+    public double calcularPrecio() {
+        double total = this.tarifaBase * getHoraReserva();
+
+        if (this.bateriaAdicicional){
+            total+= 20000;
+        }
+        return total;
+    }
 }

@@ -93,4 +93,9 @@ public abstract class EquipoVisual {
                 "\n Disponibilidad: "+isDisponibilidad()+"\n";
         return mensaje;
     }
+
+    public double calcularPrecio(){
+        double tarifaBase = 1.0;
+        return tarifaBase * this.horaReserva;
+    }
 }
