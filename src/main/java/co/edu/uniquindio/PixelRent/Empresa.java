@@ -277,6 +277,7 @@ public class Empresa {
                 switch (opcion){
                     case 1: moduloSede(); break;
                     case 2: moduloCliente(); break;
+                    case 3: moduloOperador(); break;
                 }
             }while (opcion!=0);
         }catch (Exception e){
