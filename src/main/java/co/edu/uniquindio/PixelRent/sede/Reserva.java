@@ -1,9 +1,11 @@
 package co.edu.uniquindio.PixelRent.sede;
 
 import co.edu.uniquindio.PixelRent.equipos_visuales.EquipoVisual;
+import co.edu.uniquindio.PixelRent.equipos_visuales.EstadoEquipo;
 import co.edu.uniquindio.PixelRent.equipos_visuales.Turno;
 import co.edu.uniquindio.PixelRent.personas.Cliente;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -48,8 +50,34 @@ public class Reserva{
         return estado;
     }
 
-    public void setEstado(Estado estado) {
-        this.estado = estado;
+    public void setEstado(String estado) {
+        if (estado == null){
+            return;}
+        switch (estado.toLowerCase()) {
+            case "confirmada":
+            if (this.estado == Estado.CANCELADA || this.estado == Estado.FINALIZADA){
+                JOptionPane.showMessageDialog(null, "No se puede confirmar una reserva que esta en " + this.estado);
+            } else {
+                this.estado = Estado.CONFIRMADA;
+            }
+            break;
+
+            case "cancelada":
+                this.estado=Estado.CANCELADA;
+                break;
+
+            case "finalizada":
+                this.estado = Estado.FINALIZADA;
+                break;
+
+            case "solicitada":
+                this.estado = Estado.SOLICITADA;
+                break;
+
+            default:
+                JOptionPane.showMessageDialog(null, "Estado no valido");
+                break;
+        }
     }
 
     @Override
