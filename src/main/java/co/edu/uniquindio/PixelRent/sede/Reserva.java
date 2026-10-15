@@ -1,5 +1,6 @@
 package co.edu.uniquindio.PixelRent.sede;
 
+import co.edu.uniquindio.PixelRent.equipos_visuales.Camara;
 import co.edu.uniquindio.PixelRent.equipos_visuales.EquipoVisual;
 import co.edu.uniquindio.PixelRent.equipos_visuales.EstadoEquipo;
 import co.edu.uniquindio.PixelRent.equipos_visuales.Turno;
@@ -88,4 +89,8 @@ public class Reserva{
                 +"Turno: "+getTurno()+"\n"
                 +"Estado: "+ getEstado();
     }
-}
+
+
+
+    }
+

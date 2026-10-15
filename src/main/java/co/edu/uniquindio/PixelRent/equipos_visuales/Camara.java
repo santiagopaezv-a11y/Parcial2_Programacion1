@@ -4,13 +4,14 @@ import javax.swing.*;
 
 public class Camara extends EquipoVisual {
         private String resolucionMaxima;
-        private double tarifaBase;
+        private double tarifaBase = 12000;
         private boolean estabilizador;
         public Camara(String marca, String modelo,String resolucionMaxima){
             String tipoObjeto="C-";
             super(marca,modelo,tipoObjeto);
             this.resolucionMaxima=resolucionMaxima;
             this.estabilizador = false;
+            this.tarifaBase = 12000;
         }
 
     public String getResolucionMaxima() {
@@ -34,11 +35,10 @@ public class Camara extends EquipoVisual {
     }
 
     public void setEstabilizador(String estabilizador) {
-            if (estabilizador.equalsIgnoreCase("si")) {
-                this.tarifaBase=15000;
-                this.estabilizador = true;
-            }else {
-                this.tarifaBase=12000;
+
+            if (estabilizador != null && estabilizador.equalsIgnoreCase("si")){
+            this.estabilizador = true;
+            } else {
                 this.estabilizador = false;
             }
     }
@@ -46,6 +46,15 @@ public class Camara extends EquipoVisual {
             String pregunta= JOptionPane.showInputDialog("¿Tiene estabilizador?");
             setEstabilizador(pregunta);
     }
+
+    public double calcularPrecio(int horas){
+            double total = horas * this.tarifaBase;
+            if (this.estabilizador){
+                total+= 15000;
+            }
+            return total;
+    }
+
     @Override
     public String toString(){
             String mensaje=super.toString();

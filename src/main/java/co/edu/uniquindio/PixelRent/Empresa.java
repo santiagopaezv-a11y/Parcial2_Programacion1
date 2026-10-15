@@ -7,6 +7,7 @@ import co.edu.uniquindio.PixelRent.sede.Reserva;
 import co.edu.uniquindio.PixelRent.sede.Sede;
 
 import javax.swing.*;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,12 @@ public class Empresa {
         listaReservas.add(new Reserva(pedro, LocalDate.of(2022, 10, 9), Turno.TARDE));
         mostrarReservas();
         //mostrarReservaPorId();
-        Sede sedeNorte = new Sede("Sede norte", "Allí");
+
+        Sede sedeNorte = new Sede("PixelRent Norte", "Cra 14 #17N-05");
+        Sede sedeSur = new Sede("PixelRent Sur", "Calle 50 #19-23");
+        listaSedes.add(sedeNorte);
+        listaSedes.add(sedeSur);
+
         Operador.listaOperadores.add(new Operador("Juan", "1234", true, 8));
         Operador.listaOperadores.add(new Operador("Paco", "123", false, 2));
         sedeNorte.getListaEquipos().add(new Camara("adsa", "asda", "sad12"));
@@ -38,12 +44,71 @@ public class Empresa {
 //        mostrarListaEquipos(sedeNorte);
 
 
+    // MENU PRINCIPAL
+        String option = "";
+        do {
+            option = JOptionPane.showInputDialog
+                    ("--- MENU PRINCIPAL PIXELRENT---\n" +
+                    "1. \n" +
+                    "2.  \n" +
+                    "3.   \n" );
+
+
+
+
+        } while ( option != null && !option.equals(""));
+
     }
 
     //Crear o agregar elementos o asignar elementos
+
+    public static void agregarReserva(){
+        if(listaClientes.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay  clientes registrados, debe registrar uno primero.");
+            return;
+        }
+        String idCliente = JOptionPane.showInputDialog("Ingrese el ID del cliente para la reserva: ");
+        Cliente clienteEncontrado = null;
+
+        for (Cliente cliente : listaClientes){
+            if (cliente.id().equals(idCliente)){
+                clienteEncontrado = cliente;
+                break;
+            }
+        }
+
+        if (clienteEncontrado == null){
+            JOptionPane.showMessageDialog(null, "El cliente no fue encontrado: ");
+            return;
+        }
+        LocalDate fechaSolicitud = null;
+        try {
+            String input = JOptionPane.showInputDialog("Ingrese la fecha de la solicitud (AAAA-MM-DD): ");
+            if (input == null) return;
+                fechaSolicitud = LocalDate.parse(input);
+        } catch (DateTimeException e){
+            JOptionPane.showMessageDialog(null, "Formato erroneo");
+            return;
+        }
+
+        Turno turno = null;
+        try {
+            String turnoInput = JOptionPane.showInputDialog("Ingrese el turno (DIA - TARDE - NOCHE): ");
+            if(turnoInput==null) return;
+            turno = Turno.valueOf(turnoInput.trim().toUpperCase());
+        } catch (IllegalThreadStateException e) {
+            JOptionPane.showMessageDialog(null, "Turno invalido. Debe ser (DIA - TARDE - NOCHE). ");
+        }
+
+        Reserva nuevaReserva = new Reserva(clienteEncontrado, fechaSolicitud, turno);
+        listaReservas.add(nuevaReserva);
+        JOptionPane.showMessageDialog(null, "La reserva fue creada con exito.");
+    }
+
+
     public static void agregarCliente() {
-        String nombre = showInputDialog("Ingrese el nombre del cliente");
-        String documento = showInputDialog("Ingrese el documento");
+        String nombre = JOptionPane.showInputDialog("Ingrese el nombre del cliente");
+        String documento = JOptionPane.showInputDialog("Ingrese el documento");
         String telefono = showInputDialog("Ingrese el telefono");
         String correo = showInputDialog("Ingrese el correo");
         Cliente nuevoCliente = new Cliente(nombre, documento, telefono, correo);
@@ -118,6 +183,8 @@ public class Empresa {
         }
         JOptionPane.showMessageDialog(null, mensaje);
     }
+
+
 
     // editar - modificar elementos
 
@@ -273,5 +340,5 @@ public class Empresa {
         }
         JOptionPane.showMessageDialog(null, mensaje);
     }
-
+//  COSTO RESERVA
 }

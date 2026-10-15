@@ -6,14 +6,15 @@ public abstract class EquipoVisual {
     protected String modelo;
     protected boolean disponibilidad;
     protected static int cantidadEquipos=0;
-    protected int horaReserva=0;
+    protected int horaReserva;
     protected EstadoEquipo estadoEquipo;
 
-    public EquipoVisual(String marca, String modelo,String tipoObjeto) {
+    public EquipoVisual(String marca, String modelo,String tipoObjeto, int horaReserva) {
         id=tipoObjeto+(++cantidadEquipos);
         this.marca = marca;
         this.modelo = modelo;
         this.disponibilidad = true;
+        this.horaReserva = horaReserva;
     }
 
     public String getId() {
