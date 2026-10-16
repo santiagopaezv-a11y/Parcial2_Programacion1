@@ -109,11 +109,17 @@ public class Reserva{
 
     @Override
     public String toString() {
-        return "Id reserva: "+getId()+"\n"
+        String ids="";
+        for (EquipoVisual equipoVisual: listaEquiposAudiovisuales){
+            ids+=equipoVisual.getId()+"-";
+        }
+        String mensaje="Id reserva: "+getId()+"\n"
                 +"\n Cliente: "+"\n"+cliente.toString()+"\n"
                 +"\nFecha solicitada: "+getFechaSolicitud()+"\n"
                 +"Turno: "+getTurno()+"\n"
-                +"Estado: "+ getEstado();
+                +"Estado: "+ getEstado()+
+                "\n ID de "+ids;
+        return mensaje;
     }
 
     public void agregarEquipo(EquipoVisual equipoVisual){

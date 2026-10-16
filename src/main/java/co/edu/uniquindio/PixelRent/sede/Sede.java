@@ -180,7 +180,7 @@ public class Sede {
                 opcion=Integer.parseInt(JOptionPane.showInputDialog(
                         "Menu "+ getNombre()+
                                 "\n 1. Agregar equipo audiovisual"+
-                                "\n 2. Mostrar lista general o buscar por ID"+
+                                "\n 2. Mostrar lista general"+
                                 "\n 3. Modificar equipo audiovisual"+
                                 "\n 4. Eliminar equipo audiovisual"+
                                 "\n 0. Cambiar de sede"
