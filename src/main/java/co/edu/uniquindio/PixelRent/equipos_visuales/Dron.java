@@ -20,7 +20,6 @@ public class Dron extends EquipoVisual{
         this.autonomiaVuelo=autonomiaVuelo;
         this.bateriaAdicicional = false;
         this.tarifaBase = 18000;
-        preguntarMinutosVuelo();
     }
 
     public boolean isBateriaAdicicional() {
@@ -90,9 +89,10 @@ public class Dron extends EquipoVisual{
     @Override
     public String toString(){
         String mensaje=super.toString();
-        mensaje+="Autonomia de vuelo: "+ getAutonomiaVuelo()+
-        "\n Operador actual: " + operadorActual.getNombre();
+        mensaje+= "Autonomia de vuelo: "+ getAutonomiaVuelo()+ ".";
         return mensaje;
+
+
     }
     public void asignarDronOperador(){
         String idOperador=JOptionPane.showInputDialog("Ingrese el ID del operador que quiere asignar: ");

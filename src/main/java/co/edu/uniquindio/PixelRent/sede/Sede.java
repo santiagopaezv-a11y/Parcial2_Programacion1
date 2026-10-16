@@ -92,7 +92,8 @@ public class Sede {
         }
     }
     public void mostrarListaEquipos() {
-        String mensaje = getNombre()+ "\n";
+
+        String mensaje = getNombre() + "\n";
         for (EquipoVisual equipoVisual : listaEquipos){
             mensaje += equipoVisual.toString() + "\n -------------" + "\n";
         }
