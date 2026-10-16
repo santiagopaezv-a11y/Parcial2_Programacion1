@@ -184,7 +184,7 @@ public class Empresa {
             if (reserva.getId().equals(idReserva)) {
                 String idOperador = JOptionPane.showInputDialog("Ingrese el ID del operador que quiere asignar: ");
                 for (Operador operador : Operador.listaOperadores) {
-                    if (operador.getDocumento().equals(idOperador)) operador.setListaReservas(reserva);
+                    if (operador.getDocumento().equals(idOperador)) operador.setListaReservas( reserva);
                 }
             }
         }
